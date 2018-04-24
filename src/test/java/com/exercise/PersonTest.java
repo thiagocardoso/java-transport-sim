@@ -2,24 +2,25 @@ package com.exercise;
 
 import org.junit.Test;
 
+import static com.exercise.Role.*;
 import static org.junit.Assert.*;
 
 public class PersonTest {
     @Test
-    public void testCreate() {
+    public void create() {
         Person person = new Person();
         assertNotNull(person);
     }
 
     @Test
-    public void testCanDrive_false() {
+    public void canDrive_false() {
         Person person = new Person();
         assertFalse(person.canDrive());
     }
 
     @Test
-    public void testCanDrive(){
-        Person person = new Driver();
+    public void canDrive(){
+        Person person = new Person(PILOT);
         assertTrue(person.canDrive());
     }
 
@@ -39,19 +40,24 @@ public class PersonTest {
     }
 
     @Test
-    public void testCreateCrewMemberByDefault() {
+    public void createCrewMemberByDefault() {
         Person person = new Person();
-        assertEquals(Role.CREW_MEMBER, person.getRole());
+        assertEquals(CREW_MEMBER, person.getRole());
     }
 
     @Test
-    public void testCreatePilot() {
-        buildAndCheckPersonWithRole(Role.PILOT);
+    public void createPilot() {
+        buildAndCheckPersonWithRole(PILOT);
     }
 
     @Test
-    public void testCreateFlightAttendant() {
-        buildAndCheckPersonWithRole(Role.FLIGHT_ATTENDANT);
+    public void createFlightAttendant() {
+        buildAndCheckPersonWithRole(FLIGHT_ATTENDANT);
+    }
+
+    @Test
+    public void createOnboardChief() {
+        buildAndCheckPersonWithRole(ONBOARD_CHIEF);
     }
 
     private Person buildAndCheckPersonWithRole(Role role) {

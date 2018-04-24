@@ -5,8 +5,8 @@ import com.google.common.collect.Lists;
 import java.util.List;
 
 public class Person {
-    private List<Person> restrictions = Lists.newLinkedList();
-    private Role role;
+    private final List<Person> restrictions = Lists.newLinkedList();
+    private final Role role;
 
     public Person() {
         this(Role.CREW_MEMBER);
@@ -17,7 +17,7 @@ public class Person {
     }
 
     public boolean canDrive() {
-        return false;
+        return this.role.canDrive();
     }
 
     public boolean hasRestrictions() {
