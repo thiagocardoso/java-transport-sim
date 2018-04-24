@@ -19,7 +19,7 @@ public class Travel {
         this.destination = destination;
     }
 
-    public static Travel with(Vehicle vehicle, Direction origin, Direction destination) {
+    public static final Travel with(Vehicle vehicle, Direction origin, Direction destination) {
         return new Travel(vehicle, origin, destination);
     }
 
