@@ -58,6 +58,18 @@ public class PersonTest {
         checkItCanDrive(person);
     }
 
+    @Test
+    public void createPolicemanAndCheckHeCanDrive() {
+        Person person = buildAndCheckPersonWithRole(Role.POLICEMAN);
+        checkItCanDrive(person);
+    }
+
+    @Test
+    public void createPrisonerAndCheckHeCannotDrive() {
+        Person person = buildAndCheckPersonWithRole(Role.PRISONER);
+        checkItCannotDrive(person);
+    }
+
     private Person buildAndCheckPersonWithRole(Role role) {
         Person person = new Person(role);
         assertEquals(role, person.getRole());

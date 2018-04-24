@@ -14,6 +14,13 @@ public enum Role {
         public boolean canDrive() {
             return true;
         }
+    },
+    PRISONER,
+    POLICEMAN() {
+        @Override
+        public boolean canDrive() {
+            return true;
+        }
     };
 
     public boolean canDrive() {
