@@ -58,6 +58,10 @@ public class Guide {
         }
     }
 
+    public boolean isValid() {
+        return false;
+    }
+
     public class DriverNotFoundException extends RuntimeException {}
     public class PassengerNotFoundForDriverException extends RuntimeException {}
 }
