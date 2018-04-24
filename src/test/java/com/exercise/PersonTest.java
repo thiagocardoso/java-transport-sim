@@ -12,7 +12,7 @@ public class PersonTest {
     }
 
     @Test
-    public void testCannotDrive() {
+    public void testCanDrive_false() {
         Person person = new Person();
         assertFalse(person.canDrive());
     }
@@ -23,5 +23,30 @@ public class PersonTest {
         assertTrue(person.canDrive());
     }
 
+    @Test
+    public void testHasRestrictions_false() {
+        Person person = new Person();
+        assertFalse(person.hasRestrictions());
+    }
 
+    @Test
+    public void testHasRestrictions_true() {
+        Person person = new Person();
+        Person restricted = new Person();
+        person.addRestriction(restricted);
+
+        assertTrue(person.hasRestrictions());
+    }
+
+    @Test
+    public void testCreatePilot() {
+        Person person = new Person(Role.PILOT);
+        assertEquals(Role.PILOT, person.getRole());
+    }
+
+    @Test
+    public void testCreateCrewMemberByDefault() {
+        Person person = new Person();
+        assertEquals(Role.CREW_MEMBER, person.getRole());
+    }
 }
