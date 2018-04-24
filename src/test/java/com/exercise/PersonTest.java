@@ -39,14 +39,24 @@ public class PersonTest {
     }
 
     @Test
-    public void testCreatePilot() {
-        Person person = new Person(Role.PILOT);
-        assertEquals(Role.PILOT, person.getRole());
-    }
-
-    @Test
     public void testCreateCrewMemberByDefault() {
         Person person = new Person();
         assertEquals(Role.CREW_MEMBER, person.getRole());
+    }
+
+    @Test
+    public void testCreatePilot() {
+        buildAndCheckPersonWithRole(Role.PILOT);
+    }
+
+    @Test
+    public void testCreateFlightAttendant() {
+        buildAndCheckPersonWithRole(Role.FLIGHT_ATTENDANT);
+    }
+
+    private Person buildAndCheckPersonWithRole(Role role) {
+        Person person = new Person(role);
+        assertEquals(role, person.getRole());
+        return person;
     }
 }
