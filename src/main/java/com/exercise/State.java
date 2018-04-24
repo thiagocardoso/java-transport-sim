@@ -4,15 +4,15 @@ import com.exercise.business.Guide;
 import com.exercise.entity.Person;
 import com.exercise.travel.Place;
 import com.exercise.travel.Travel;
+import com.google.common.base.Objects;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
+
+import static com.google.common.base.MoreObjects.*;
 
 public class State {
     final Map<Place, List<Person>> people = Maps.newEnumMap(Place.class);
@@ -107,5 +107,29 @@ public class State {
 
     public Place getLocation() {
         return this.location;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj instanceof State) {
+            State other = (State) obj;
+            return Objects.equal(this.location, other.location) && Objects.equal(this.people, other.people);
+        }
+
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(location, people);
+    }
+
+    @Override
+    public String toString() {
+        return toStringHelper(this)
+                .add("parent", this.parent)
+                .add("next", this.next)
+                .add("people", this.people)
+                .toString();
     }
 }

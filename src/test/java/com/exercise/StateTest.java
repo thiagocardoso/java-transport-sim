@@ -85,4 +85,46 @@ public class StateTest {
         assertEquals(2, next.passengersWaitingAtLocation().size());
     }
 
+    @Test
+    public void equalsState() {
+        State state1 = State.of(AIRPORT);
+        State state2 = State.of(AIRPORT);
+
+        state1.addPassenger(AIRPORT, Person.newOfficer());
+        state1.addPassenger(AIRPORT, Person.newPilot());
+
+        state2.addPassenger(AIRPORT, Person.newOfficer());
+        state2.addPassenger(AIRPORT, Person.newPilot());
+
+        assertEquals(state1, state2);
+    }
+
+    @Test
+    public void notEqualsState_differentLocation() {
+        State state1 = State.of(AIRPORT);
+        State state2 = State.of(PLANE);
+
+        state1.addPassenger(AIRPORT, Person.newOfficer());
+        state1.addPassenger(AIRPORT, Person.newPilot());
+
+        state2.addPassenger(AIRPORT, Person.newOfficer());
+        state2.addPassenger(AIRPORT, Person.newPilot());
+
+        assertNotEquals(state1, state2);
+    }
+
+    @Test
+    public void notEqualsState_differentPeople() {
+        State state1 = State.of(AIRPORT);
+        State state2 = State.of(AIRPORT);
+
+        state1.addPassenger(AIRPORT, Person.newOfficer());
+        state1.addPassenger(AIRPORT, Person.newPilot());
+
+        state2.addPassenger(PLANE, Person.newOfficer());
+        state2.addPassenger(PLANE, Person.newPilot());
+
+        assertNotEquals(state1, state2);
+    }
+
 }
