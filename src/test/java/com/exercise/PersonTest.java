@@ -19,19 +19,13 @@ public class PersonTest {
     }
 
     @Test
-    public void canDrive(){
-        Person person = new Person(PILOT);
-        assertTrue(person.canDrive());
-    }
-
-    @Test
     public void testHasRestrictions_false() {
         Person person = new Person();
         assertFalse(person.hasRestrictions());
     }
 
     @Test
-    public void testHasRestrictions_true() {
+    public void testeHasRestrictions_true() {
         Person person = new Person();
         Person restricted = new Person();
         person.addRestriction(restricted);
@@ -40,29 +34,41 @@ public class PersonTest {
     }
 
     @Test
-    public void createCrewMemberByDefault() {
+    public void createCrewMemberByDefaultAndCheckItCannotDrive() {
         Person person = new Person();
         assertEquals(CREW_MEMBER, person.getRole());
+        checkItCannotDrive(person);
     }
 
     @Test
-    public void createPilot() {
-        buildAndCheckPersonWithRole(PILOT);
+    public void createPilotAndCheckHeCanDrive() {
+        Person person = buildAndCheckPersonWithRole(PILOT);
+        checkItCanDrive(person);
     }
 
     @Test
-    public void createFlightAttendant() {
-        buildAndCheckPersonWithRole(FLIGHT_ATTENDANT);
+    public void createFlightAttendantAndCheckSheCannotDrive() {
+        Person person = buildAndCheckPersonWithRole(FLIGHT_ATTENDANT);
+        checkItCannotDrive(person);
     }
 
     @Test
-    public void createOnboardChief() {
-        buildAndCheckPersonWithRole(ONBOARD_CHIEF);
+    public void createOnboardChiefAndCheckHeCanDrive() {
+        Person person = buildAndCheckPersonWithRole(ONBOARD_CHIEF);
+        checkItCanDrive(person);
     }
 
     private Person buildAndCheckPersonWithRole(Role role) {
         Person person = new Person(role);
         assertEquals(role, person.getRole());
         return person;
+    }
+
+    private void checkItCanDrive(Person person) {
+        assertTrue(person.canDrive());
+    }
+
+    private void checkItCannotDrive(Person person) {
+        assertFalse(person.canDrive());
     }
 }
