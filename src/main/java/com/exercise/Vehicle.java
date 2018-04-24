@@ -10,8 +10,8 @@ public class Vehicle {
     private final Person passenger2;
 
     public Vehicle(Person passenger1, Person passenger2) {
-        checkNotNull(passenger1);
-        checkNotNull(passenger2);
+        if(passenger1 == null || !passenger1.canDrive())
+            throw new VehicleWithoutDriverException();
 
         this.passenger1 = passenger1;
         this.passenger2 = passenger2;

@@ -23,6 +23,21 @@ public class VehicleTest {
         assertFalse(vehicle.canTravel());
     }
 
+    @Test(expected = VehicleWithoutDriverException.class)
+    public void cantCreateVehicleWithoutDriver() {
+        Vehicle.withPassengers(null, Person.newOfficer());
+    }
+
+    @Test(expected = VehicleWithoutDriverException.class)
+    public void driverMustHaveCanDriveTrue() {
+        Vehicle.withPassengers(Person.newOfficer(), Person.newOfficer());
+    }
+
+    @Test
+    public void canCreateVehicleWithoutPassenger() {
+        assertNotNull(Vehicle.withPassengers(Person.newPilot(), null));
+    }
+
     private Vehicle buildValidVehicle() {
         Person passenger1 = Person.newPilot();
         Person passenger2 = Person.newOfficer();
