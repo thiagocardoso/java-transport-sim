@@ -7,10 +7,10 @@ import com.google.common.base.Objects;
 
 public class Travel {
     private final Vehicle vehicle;
-    private final Direction origin;
-    private final Direction destination;
+    private final Place origin;
+    private final Place destination;
 
-    public Travel(Vehicle vehicle, Direction origin, Direction destination) {
+    Travel(Vehicle vehicle, Place origin, Place destination) {
         checkNotNull(vehicle);
         checkNotNull(origin);
         checkNotNull(destination);
@@ -20,7 +20,7 @@ public class Travel {
         this.destination = destination;
     }
 
-    public static final Travel with(Vehicle vehicle, Direction origin, Direction destination) {
+    public static final Travel with(Vehicle vehicle, Place origin, Place destination) {
         return new Travel(vehicle, origin, destination);
     }
 
@@ -28,11 +28,11 @@ public class Travel {
         return vehicle;
     }
 
-    public Direction getOrigin() {
+    public Place getOrigin() {
         return origin;
     }
 
-    public Direction getDestination() {
+    public Place getDestination() {
         return destination;
     }
 

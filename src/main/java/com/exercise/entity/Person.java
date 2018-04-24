@@ -75,6 +75,9 @@ public class Person {
     }
 
     public boolean hasRestrictionWith(Person person) {
-        return this.role.containsRestriction(person.getRole());
+        if (person != null)
+            return this.role.containsRestriction(person.getRole());
+
+        return false;
     }
 }

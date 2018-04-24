@@ -7,6 +7,10 @@ public class Vehicle {
     private final Person passenger1;
     private final Person passenger2;
 
+    Vehicle() {
+        this(null, null);
+    }
+
     public Vehicle(Person passenger1, Person passenger2) {
         if(passenger1 == null || !passenger1.canDrive())
             throw new VehicleWithoutDriverException();
@@ -20,7 +24,7 @@ public class Vehicle {
     }
 
     public boolean canTravel() {
-        return !(passenger1.hasRestrictionWith(passenger2) || passenger2.hasRestrictionWith(passenger1));
+        return !(passenger1.hasRestrictionWith(passenger2) || (passenger2 != null && passenger2.hasRestrictionWith(passenger1)));
     }
 
     @Override

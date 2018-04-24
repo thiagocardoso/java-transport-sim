@@ -7,6 +7,8 @@ import java.util.List;
 public class TravelLog {
     public static final List<Travel> log = Lists.newLinkedList();
 
+    TravelLog() {}
+
     public static final TravelLog of() {
         return new TravelLog();
     }
