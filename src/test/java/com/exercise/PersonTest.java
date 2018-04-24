@@ -2,33 +2,26 @@ package com.exercise;
 
 import org.junit.Test;
 
-import static com.exercise.Role.*;
+import static com.exercise.BasicRole.*;
 import static org.junit.Assert.*;
 
 public class PersonTest {
     @Test
     public void create() {
-        assertNotNull(Person.newCrewMember());
-    }
-
-    @Test
-    public void testHasRestrictions_false() {
-        assertFalse(Person.newCrewMember().hasRestrictions());
+        assertNotNull(Person.newOfficer());
     }
 
     @Test
     public void testeHasRestrictions_true() {
-        Person person = Person.newCrewMember();
-        Person restricted = Person.newCrewMember();
-        person.addRestriction(restricted);
+        Person person = Person.newOfficer();
 
         assertTrue(person.hasRestrictions());
     }
 
     @Test
     public void createCrewMemberAndCheckItCannotDrive() {
-        Person person = Person.newCrewMember();
-        checkPersonWithRole(person, CREW_MEMBER);
+        Person person = Person.newOfficer();
+        checkPersonWithRole(person, OFFICER);
         checkItCannotDrive(person);
     }
 
@@ -67,7 +60,7 @@ public class PersonTest {
         checkItCannotDrive(person);
     }
 
-    private void checkPersonWithRole(Person person, Role role) {
+    private void checkPersonWithRole(Person person, BasicRole role) {
         assertEquals(role, person.getRole());
     }
 

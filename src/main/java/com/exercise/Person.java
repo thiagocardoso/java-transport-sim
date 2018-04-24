@@ -1,21 +1,16 @@
 package com.exercise;
 
-import com.google.common.collect.Lists;
-
-import java.util.List;
-
-import static com.exercise.Role.*;
+import static com.exercise.BasicRole.*;
 
 public class Person {
-    private final List<Person> restrictions = Lists.newLinkedList();
-    private final Role role;
+    private final BasicRole role;
 
-    Person(Role role) {
+    Person(BasicRole role) {
         this.role = role;
     }
 
-    public static final Person newCrewMember() {
-        return new Person(CREW_MEMBER);
+    public static final Person newOfficer() {
+        return new Person(OFFICER);
     }
 
     public static final Person newPilot() {
@@ -43,14 +38,10 @@ public class Person {
     }
 
     public boolean hasRestrictions() {
-        return !this.restrictions.isEmpty();
+        return this.role.hasRestrictions();
     }
 
-    public void addRestriction(Person restricted) {
-        this.restrictions.add(restricted);
-    }
-
-    public Role getRole() {
+    public BasicRole getRole() {
         return this.role;
     }
 }
