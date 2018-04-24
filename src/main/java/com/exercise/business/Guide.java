@@ -59,7 +59,10 @@ public class Guide {
     }
 
     public boolean isValid() {
-        return false;
+        Validator notAlone = new NotAloneWithRestrictionValidator(this.availablePassengers);
+        Validator prisonerWithoutPoliceman = new PrisonerWithoutPolicemanValidator(this.availablePassengers);
+
+        return notAlone.validate() && prisonerWithoutPoliceman.validate();
     }
 
     public class DriverNotFoundException extends RuntimeException {}

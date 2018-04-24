@@ -23,4 +23,18 @@ public class ValidatorTest {
         assertTrue(validator.validate());
     }
 
+    @Test
+    public void validatePrisonerWithoutPoliceman_success() {
+        List<Person> people = Lists.newArrayList(Person.newPoliceman(), Person.newPrisoner());
+        Validator validator = new PrisonerWithoutPolicemanValidator(people);
+        assertTrue(validator.validate());
+    }
+
+    @Test
+    public void validatePrisonerWithoutPoliceman_fail() {
+        List<Person> people = Lists.newArrayList(Person.newPilot(), Person.newPrisoner());
+        Validator validator = new PrisonerWithoutPolicemanValidator(people);
+        assertFalse(validator.validate());
+    }
+
 }
