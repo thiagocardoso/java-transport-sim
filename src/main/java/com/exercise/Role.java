@@ -1,6 +1,6 @@
 package com.exercise;
 
-public enum Role {
+enum Role {
     PILOT() {
         @Override
         public boolean canDrive() {

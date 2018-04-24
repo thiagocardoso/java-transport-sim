@@ -8,72 +8,67 @@ import static org.junit.Assert.*;
 public class PersonTest {
     @Test
     public void create() {
-        Person person = new Person();
-        assertNotNull(person);
-    }
-
-    @Test
-    public void canDrive_false() {
-        Person person = new Person();
-        assertFalse(person.canDrive());
+        assertNotNull(Person.newCrewMember());
     }
 
     @Test
     public void testHasRestrictions_false() {
-        Person person = new Person();
-        assertFalse(person.hasRestrictions());
+        assertFalse(Person.newCrewMember().hasRestrictions());
     }
 
     @Test
     public void testeHasRestrictions_true() {
-        Person person = new Person();
-        Person restricted = new Person();
+        Person person = Person.newCrewMember();
+        Person restricted = Person.newCrewMember();
         person.addRestriction(restricted);
 
         assertTrue(person.hasRestrictions());
     }
 
     @Test
-    public void createCrewMemberByDefaultAndCheckItCannotDrive() {
-        Person person = new Person();
-        assertEquals(CREW_MEMBER, person.getRole());
+    public void createCrewMemberAndCheckItCannotDrive() {
+        Person person = Person.newCrewMember();
+        checkPersonWithRole(person, CREW_MEMBER);
         checkItCannotDrive(person);
     }
 
     @Test
     public void createPilotAndCheckHeCanDrive() {
-        Person person = buildAndCheckPersonWithRole(PILOT);
+        Person person = Person.newPilot();
+        checkPersonWithRole(person, PILOT);
         checkItCanDrive(person);
     }
 
     @Test
     public void createFlightAttendantAndCheckSheCannotDrive() {
-        Person person = buildAndCheckPersonWithRole(FLIGHT_ATTENDANT);
+        Person person = Person.newFlightAttendant();
+        checkPersonWithRole(person, FLIGHT_ATTENDANT);
         checkItCannotDrive(person);
     }
 
     @Test
     public void createOnboardChiefAndCheckHeCanDrive() {
-        Person person = buildAndCheckPersonWithRole(ONBOARD_CHIEF);
+        Person person = Person.newOnboardChief();
+        checkPersonWithRole(person, ONBOARD_CHIEF);
         checkItCanDrive(person);
     }
 
     @Test
     public void createPolicemanAndCheckHeCanDrive() {
-        Person person = buildAndCheckPersonWithRole(Role.POLICEMAN);
+        Person person = Person.newPoliceman();
+        checkPersonWithRole(person, POLICEMAN);
         checkItCanDrive(person);
     }
 
     @Test
     public void createPrisonerAndCheckHeCannotDrive() {
-        Person person = buildAndCheckPersonWithRole(Role.PRISONER);
+        Person person = Person.newPrisoner();
+        checkPersonWithRole(person, PRISONER);
         checkItCannotDrive(person);
     }
 
-    private Person buildAndCheckPersonWithRole(Role role) {
-        Person person = new Person(role);
+    private void checkPersonWithRole(Person person, Role role) {
         assertEquals(role, person.getRole());
-        return person;
     }
 
     private void checkItCanDrive(Person person) {
