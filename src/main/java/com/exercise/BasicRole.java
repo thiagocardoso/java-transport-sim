@@ -1,11 +1,15 @@
 package com.exercise;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 
 import java.util.List;
+import java.util.Map;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 enum BasicRole implements Role {
-    PILOT() {
+    PILOT {
         @Override
         public boolean canDrive() {
             return true;
@@ -13,10 +17,10 @@ enum BasicRole implements Role {
 
         @Override
         public void setupRestrictions(){
-            this.addRestriction(FLIGHT_ATTENDANT);
+            addRestriction(this, FLIGHT_ATTENDANT);
         }
     },
-    ONBOARD_CHIEF() {
+    ONBOARD_CHIEF {
         @Override
         public boolean canDrive() {
             return true;
@@ -24,10 +28,10 @@ enum BasicRole implements Role {
 
         @Override
         public void setupRestrictions() {
-            this.addRestriction(PRISONER);
+            addRestriction(this, PRISONER);
         }
     },
-    POLICEMAN() {
+    POLICEMAN {
         @Override
         public boolean canDrive() {
             return true;
@@ -39,38 +43,50 @@ enum BasicRole implements Role {
     OFFICER {
         @Override
         public void setupRestrictions() {
-            this.addRestriction(PRISONER);
-            this.addRestriction(ONBOARD_CHIEF);
+            addRestriction(this,PRISONER);
+            addRestriction(this, ONBOARD_CHIEF);
         }
     },
     FLIGHT_ATTENDANT {
         @Override
         public void setupRestrictions() {
-            this.addRestriction(PRISONER);
-            this.addRestriction(PILOT);
+            addRestriction(this, PRISONER);
+            addRestriction(this, PILOT);
         }
     },
     PRISONER {
         @Override
         public void setupRestrictions() {
-            this.addRestriction(PILOT);
-            this.addRestriction(ONBOARD_CHIEF);
-            this.addRestriction(FLIGHT_ATTENDANT);
+            addRestriction(this, PILOT);
+            addRestriction(this, ONBOARD_CHIEF);
+            addRestriction(this, FLIGHT_ATTENDANT);
         }
     };
 
-    private final List<Role> restrictions = Lists.newLinkedList();
+    private static final Map<Role, List<Role>> restrictions = Maps.newHashMap();
 
-    protected void addRestriction(Role restricted) {
-        this.restrictions.add(restricted);
+    static {
+        for (Role role: BasicRole.values())
+            role.setupRestrictions();
     }
 
-    BasicRole() {
-        this.setupRestrictions();
+    protected static void addRestriction(Role first, Role restricted) {
+        checkNotNull(first);
+        checkNotNull(restricted);
+
+        if(!restrictions.containsKey(first))
+            restrictions.put(first, Lists.newLinkedList());
+
+        restrictions.get(first).add(restricted);
     }
 
     @Override
     public boolean hasRestrictions() {
-        return !restrictions.isEmpty();
+        return restrictions.containsKey(this);
+    }
+
+    @Override
+    public boolean containsRestriction(Role role) {
+        return restrictions.get(this).contains(role);
     }
 }

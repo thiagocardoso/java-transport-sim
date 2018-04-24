@@ -8,4 +8,6 @@ interface Role {
     boolean hasRestrictions();
 
     void setupRestrictions();
+
+    boolean containsRestriction(Role role);
 }

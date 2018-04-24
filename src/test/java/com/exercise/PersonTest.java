@@ -60,6 +60,20 @@ public class PersonTest {
         checkItCannotDrive(person);
     }
 
+    @Test
+    public void hasRestrictionWith_true() {
+        Person pilot = Person.newPilot();
+        Person attendant = Person.newFlightAttendant();
+        assertTrue(pilot.hasRestrictionWith(attendant));
+    }
+
+    @Test
+    public void hasRestrictionWith_false() {
+        Person pilot = Person.newPilot();
+        Person officer = Person.newOfficer();
+        assertFalse(pilot.hasRestrictionWith(officer));
+    }
+
     private void checkPersonWithRole(Person person, BasicRole role) {
         assertEquals(role, person.getRole());
     }

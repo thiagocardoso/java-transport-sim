@@ -1,11 +1,16 @@
 package com.exercise;
 
+import com.google.common.base.Objects;
+
 import static com.exercise.BasicRole.*;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 public class Person {
     private final BasicRole role;
 
     Person(BasicRole role) {
+        checkNotNull(role);
+
         this.role = role;
     }
 
@@ -43,5 +48,31 @@ public class Person {
 
     public BasicRole getRole() {
         return this.role;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if(o instanceof Person) {
+            Person other = (Person) o;
+            return Objects.equal(this.role, other.role);
+        }
+
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(role);
+    }
+
+    @Override
+    public String toString() {
+        return "Person{" +
+                "role=" + role +
+                '}';
+    }
+
+    public boolean hasRestrictionWith(Person person) {
+        return this.role.containsRestriction(person.getRole());
     }
 }
