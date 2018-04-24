@@ -1,14 +1,16 @@
-package com.exercise;
+package com.exercise.entity;
 
 import com.google.common.base.Objects;
 
-import static com.exercise.BasicRole.*;
+import com.exercise.role.Role;
+
+import static com.exercise.role.BasicRole.*;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 public class Person {
-    private final BasicRole role;
+    private final Role role;
 
-    Person(BasicRole role) {
+    Person(Role role) {
         checkNotNull(role);
 
         this.role = role;
@@ -46,7 +48,7 @@ public class Person {
         return this.role.hasRestrictions();
     }
 
-    public BasicRole getRole() {
+    public Role getRole() {
         return this.role;
     }
 

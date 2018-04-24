@@ -1,6 +1,6 @@
-package com.exercise;
+package com.exercise.role;
 
-interface Role {
+public interface Role {
     default boolean canDrive() {
         return false;
     }

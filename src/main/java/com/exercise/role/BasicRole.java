@@ -1,4 +1,4 @@
-package com.exercise;
+package com.exercise.role;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -8,7 +8,7 @@ import java.util.Map;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-enum BasicRole implements Role {
+public enum BasicRole implements Role {
     PILOT {
         @Override
         public boolean canDrive() {

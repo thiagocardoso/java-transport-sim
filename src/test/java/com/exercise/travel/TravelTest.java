@@ -1,9 +1,12 @@
-package com.exercise;
+package com.exercise.travel;
 
+import com.exercise.entity.Person;
+import com.exercise.entity.Vehicle;
+import com.exercise.travel.Travel;
 import org.junit.Test;
 
-import static com.exercise.Direction.AIRPORT;
-import static com.exercise.Direction.PLANE;
+import static com.exercise.travel.Direction.AIRPORT;
+import static com.exercise.travel.Direction.PLANE;
 import static org.junit.Assert.*;
 
 public class TravelTest {

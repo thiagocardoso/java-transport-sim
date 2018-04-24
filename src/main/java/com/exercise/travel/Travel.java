@@ -1,7 +1,8 @@
-package com.exercise;
+package com.exercise.travel;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.exercise.entity.Vehicle;
 import com.google.common.base.Objects;
 
 public class Travel {

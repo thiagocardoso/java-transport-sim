@@ -1,4 +1,4 @@
-package com.exercise;
+package com.exercise.entity.exception;
 
 public class VehicleWithoutDriverException extends RuntimeException{
     public VehicleWithoutDriverException() {

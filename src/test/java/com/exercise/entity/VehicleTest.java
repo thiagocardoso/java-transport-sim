@@ -1,5 +1,8 @@
-package com.exercise;
+package com.exercise.entity;
 
+import com.exercise.entity.Person;
+import com.exercise.entity.Vehicle;
+import com.exercise.entity.exception.VehicleWithoutDriverException;
 import org.junit.Test;
 
 import static org.junit.Assert.*;

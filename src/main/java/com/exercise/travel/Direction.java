@@ -1,4 +1,4 @@
-package com.exercise;
+package com.exercise.travel;
 
 public enum Direction {
     PLANE,

@@ -1,9 +1,7 @@
-package com.exercise;
+package com.exercise.entity;
 
+import com.exercise.entity.exception.VehicleWithoutDriverException;
 import com.google.common.base.Objects;
-import com.google.common.base.Preconditions;
-
-import static com.google.common.base.Preconditions.checkNotNull;
 
 public class Vehicle {
     private final Person passenger1;

@@ -1,8 +1,10 @@
-package com.exercise;
+package com.exercise.entity;
 
+import com.exercise.entity.Person;
+import com.exercise.role.BasicRole;
 import org.junit.Test;
 
-import static com.exercise.BasicRole.*;
+import static com.exercise.role.BasicRole.*;
 import static org.junit.Assert.*;
 
 public class PersonTest {
