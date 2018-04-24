@@ -1,5 +1,6 @@
 package com.exercise.business;
 
+import com.exercise.State;
 import com.exercise.entity.Person;
 import com.exercise.entity.Vehicle;
 import com.exercise.travel.Place;
@@ -24,6 +25,10 @@ public class Guide {
 
     public static final Guide of(Place currentPosition, List<Person> availablePassengers) {
         return new Guide(currentPosition, availablePassengers);
+    }
+
+    public static Guide fromState(State state) {
+        return new Guide(state.getLocation(), state.passengersWaitingAt(state.getLocation()));
     }
 
     public Travel nextTravel() {

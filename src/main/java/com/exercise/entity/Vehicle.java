@@ -42,4 +42,20 @@ public class Vehicle {
     public int hashCode() {
         return Objects.hashCode(passenger1, passenger2);
     }
+
+    public Person getDriver() {
+        return this.passenger1;
+    }
+
+    public Person getPassenger() {
+        return this.passenger2;
+    }
+
+    public boolean isPassengerInto(Person passenger) {
+        if(passenger != null){
+            return passenger.equals(passenger1) || passenger.equals(passenger2);
+        }
+
+        return false;
+    }
 }
