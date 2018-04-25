@@ -9,10 +9,10 @@ import java.util.List;
 import static com.exercise.role.BasicRole.POLICEMAN;
 import static com.exercise.role.BasicRole.PRISONER;
 
-class PrisonerWithoutPolicemanValidator implements Validator{
+public class PrisonerWithoutPolicemanValidator implements Validator{
     final List<Person> people;
 
-    PrisonerWithoutPolicemanValidator(List<Person> people) {
+    public PrisonerWithoutPolicemanValidator(List<Person> people) {
         this.people = people;
     }
 

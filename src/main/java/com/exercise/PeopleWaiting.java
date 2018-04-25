@@ -1,6 +1,8 @@
 package com.exercise;
 
-import com.exercise.business.Guide;
+import com.exercise.business.NotAloneWithRestrictionValidator;
+import com.exercise.business.PrisonerWithoutPolicemanValidator;
+import com.exercise.business.Validator;
 import com.exercise.entity.Person;
 import com.exercise.travel.Place;
 import com.google.common.base.Objects;
@@ -32,10 +34,6 @@ public class PeopleWaiting {
         return people;
     }
 
-    public boolean isValid() {
-        return Guide.of(this.location, this.people).isValid();
-    }
-
     public Place getLocation() {
         return this.location;
     }
@@ -50,6 +48,14 @@ public class PeopleWaiting {
             this.people.addAll(people);
 
         Collections.sort(this.people);
+    }
+
+    public boolean isValid() {
+        List<Person> people = this.getPeople();
+        Validator notAlone = new NotAloneWithRestrictionValidator(people);
+        Validator prisonerWithoutPoliceman = new PrisonerWithoutPolicemanValidator(people);
+
+        return notAlone.validate() && prisonerWithoutPoliceman.validate();
     }
 
     @Override

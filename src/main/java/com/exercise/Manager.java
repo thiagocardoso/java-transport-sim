@@ -1,6 +1,5 @@
 package com.exercise;
 
-import com.exercise.business.Guide;
 import com.exercise.travel.Place;
 import com.exercise.travel.Travel;
 import com.google.common.collect.Lists;
@@ -59,11 +58,15 @@ public class Manager {
     }
 
     private Travel buildTravel(State state, Travel lastTravel) {
-        if(state.getLocation() == objectiveState.getLocation())
-            return Guide.fromState(state).nextTravelOnlyDriver();
-        else
-            return Guide.fromState(state).nextTravel(lastTravel);
+        Travel.Builder builder = Travel.Builder.from(state.waitingAtCurrent());
+
+        return builder
+                .lastTravel(lastTravel)
+                .onlyDriver(state.getLocation() == objectiveState.getLocation())
+                .build();
     }
+
+
 
     private void printLog(State state) {
         System.out.println(String.format("[] Actual Location: %s", state.getLocation()));

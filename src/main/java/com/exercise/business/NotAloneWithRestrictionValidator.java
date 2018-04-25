@@ -4,10 +4,10 @@ import com.exercise.entity.Person;
 
 import java.util.List;
 
-class NotAloneWithRestrictionValidator implements Validator{
+public class NotAloneWithRestrictionValidator implements Validator{
     final List<Person> people;
 
-    NotAloneWithRestrictionValidator(List<Person> people) {
+    public NotAloneWithRestrictionValidator(List<Person> people) {
         this.people = people;
     }
 

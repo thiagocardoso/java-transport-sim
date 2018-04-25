@@ -1,8 +1,6 @@
 package com.exercise;
 
-import com.exercise.business.Guide;
 import com.exercise.entity.Person;
-import com.exercise.travel.Place;
 import com.exercise.travel.Travel;
 import org.junit.Test;
 
@@ -71,7 +69,7 @@ public class StateTest {
         state.addPassenger(AIRPORT, Person.newOfficer());
         state.addPassenger(AIRPORT, Person.newPilot());
 
-        Travel travel = Guide.fromState(state).nextTravel();
+        Travel travel = travelBuilder(state).build();
 
         State next = State.buildNext(state, travel);
 
@@ -138,14 +136,18 @@ public class StateTest {
         state2.addPassenger(PLANE, Person.newOfficer());
         state2.addPassenger(PLANE, Person.newPilot());
 
-        Travel travel = Guide.fromState(state1).nextTravel();
+        Travel travel = travelBuilder(state1).build();
 
         State next = State.buildNext(state1, travel);
         assertEquals(state2, next);
 
-        Travel travel2 = Guide.fromState(state2).nextTravel(travel);
+        Travel travel2 = travelBuilder(state2).lastTravel(travel).build();
         next = State.buildNext(state2, travel2);
         assertNotEquals(state1, next);
+    }
+
+    private Travel.Builder travelBuilder(State state) {
+        return Travel.Builder.from(state.waitingAtCurrent());
     }
 
 }

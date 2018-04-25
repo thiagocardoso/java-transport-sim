@@ -111,6 +111,10 @@ public class State {
         return this.location;
     }
 
+    public PeopleWaiting waitingAtCurrent() {
+        return this.waitingAtLocation(this.location);
+    }
+
     private PeopleWaiting waitingAtLocation(Place place) {
         return this.people
                 .stream()
