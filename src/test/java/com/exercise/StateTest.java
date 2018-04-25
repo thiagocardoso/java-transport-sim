@@ -127,4 +127,25 @@ public class StateTest {
         assertNotEquals(state1, state2);
     }
 
+    @Test
+    public void overflowSolutionByRedundanteTravel_regression() {
+        State state1 = State.of(AIRPORT);
+        State state2 = State.of(PLANE);
+
+        state1.addPassenger(AIRPORT, Person.newOfficer());
+        state1.addPassenger(AIRPORT, Person.newPilot());
+
+        state2.addPassenger(PLANE, Person.newOfficer());
+        state2.addPassenger(PLANE, Person.newPilot());
+
+        Travel travel = Guide.fromState(state1).nextTravel();
+
+        State next = State.buildNext(state1, travel);
+        assertEquals(state2, next);
+
+        Travel travel2 = Guide.fromState(state2).nextTravel(travel);
+        next = State.buildNext(state2, travel2);
+        assertNotEquals(state1, next);
+    }
+
 }

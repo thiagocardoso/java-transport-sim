@@ -35,7 +35,7 @@ public class GuideTest {
         List<Person> passengers = Lists.newArrayList(Person.newPilot());
         Guide guide = buildGuide(passengers);
         Person driver = guide.nextDriver();
-        assertNotNull(guide.nextPassengerByDriver(driver));
+        assertNotNull(guide.nextPassengerByDriver(driver, passengers));
     }
 
     @Test
@@ -43,7 +43,7 @@ public class GuideTest {
         List<Person> passengers = Lists.newArrayList(Person.newPilot(), Person.newOfficer());
         Guide guide = buildGuide(passengers);
         Person driver = guide.nextDriver();
-        assertNotNull(guide.nextPassengerByDriver(driver));
+        assertNotNull(guide.nextPassengerByDriver(driver, passengers));
     }
 
     @Test

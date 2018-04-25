@@ -1,13 +1,16 @@
 package com.exercise.entity;
 
+import com.exercise.role.BasicRole;
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 
 import com.exercise.role.Role;
+import com.google.common.collect.ComparisonChain;
 
 import static com.exercise.role.BasicRole.*;
 import static com.google.common.base.Preconditions.checkNotNull;
 
-public class Person {
+public class Person implements Comparable<Person> {
     private final Role role;
 
     Person(Role role) {
@@ -69,9 +72,7 @@ public class Person {
 
     @Override
     public String toString() {
-        return "Person{" +
-                "role=" + role +
-                '}';
+        return ((BasicRole)this.role).name();
     }
 
     public boolean hasRestrictionWith(Person person) {
@@ -79,5 +80,10 @@ public class Person {
             return this.role.containsRestriction(person.getRole());
 
         return false;
+    }
+
+    @Override
+    public int compareTo(Person o) {
+        return ComparisonChain.start().compare(((BasicRole)this.role).name(), ((BasicRole)o.role).name()).result();
     }
 }

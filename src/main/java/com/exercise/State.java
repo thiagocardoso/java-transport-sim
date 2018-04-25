@@ -2,9 +2,11 @@ package com.exercise;
 
 import com.exercise.business.Guide;
 import com.exercise.entity.Person;
+import com.exercise.entity.Vehicle;
 import com.exercise.travel.Place;
 import com.exercise.travel.Travel;
 import com.google.common.base.Objects;
+import com.google.common.collect.Collections2;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -52,17 +54,29 @@ public class State {
     }
 
     private static List<Person> buildPeopleList(Travel travel, Map.Entry<Place, List<Person>> entry) {
-        List<Person> list = entry.getValue();
+        List<Person> list = Lists.newLinkedList(entry.getValue());
 
         if (entry.getKey() != travel.getOrigin()) {
-            list.addAll(Lists.newArrayList(travel.getVehicle().getDriver(), travel.getVehicle().getPassenger()));
+            addVehiclePassengersToPeople(list, travel.getVehicle());
         } else {
-            list = entry.getValue().stream()
-                    .filter(p -> !travel.getVehicle().isPassengerInto(p))
-                    .collect(Collectors.toList());
+            removeVehiclePassengersFromPeople((LinkedList)list, travel.getVehicle());
         }
 
         return list;
+    }
+
+    private static void addVehiclePassengersToPeople(List<Person> people, Vehicle vehicle) {
+        people.add(vehicle.getDriver());
+
+        if (vehicle.getPassenger() != null)
+            people.add(vehicle.getPassenger());
+    }
+
+    private static void removeVehiclePassengersFromPeople(LinkedList<Person> people, Vehicle vehicle) {
+        people.removeFirstOccurrence(vehicle.getDriver());
+
+        if(vehicle.getPassenger() != null)
+            people.removeFirstOccurrence(vehicle.getPassenger());
     }
 
     public List<Person> passengersWaitingAtLocation() {
@@ -70,7 +84,9 @@ public class State {
     }
 
     public List<Person> passengersWaitingAt(Place location) {
-        return ImmutableList.copyOf(this.people.get(location));
+        List<Person> people = this.people.get(location);
+        Collections.sort(people);
+        return ImmutableList.copyOf(people);
     }
 
     public void addPassenger(Place location, Person person) {
@@ -78,7 +94,10 @@ public class State {
     }
 
     public void addPassengers(Place location, Collection<? extends Person> person) {
-        this.people.get(location).addAll(person);
+        if(!person.isEmpty())
+            this.people.get(location).addAll(person);
+
+        Collections.sort(this.people.get(location));
     }
 
     public boolean isValidState() {
@@ -127,8 +146,7 @@ public class State {
     @Override
     public String toString() {
         return toStringHelper(this)
-                .add("parent", this.parent)
-                .add("next", this.next)
+                .add("location", this.location)
                 .add("people", this.people)
                 .toString();
     }

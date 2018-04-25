@@ -6,6 +6,7 @@ import com.exercise.entity.Vehicle;
 import com.exercise.travel.Place;
 import com.exercise.travel.Travel;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
 
 import java.util.List;
 
@@ -32,9 +33,22 @@ public class Guide {
     }
 
     public Travel nextTravel() {
-        Person passenger = nextPassengerForCurrentDriver();
+        return this.nextTravel(null);
+    }
 
+    public Travel nextTravel(Travel lastTravel) {
+        List<Person> passengers = Lists.newLinkedList(this.availablePassengers);
+
+        Person passenger = nextPassengerForCurrentDriver(passengers);
         Vehicle vehicle = Vehicle.withPassengers(nextDriver(), passenger);
+
+        while (lastTravel != null && lastTravel.getVehicle().equals(vehicle)) {
+            passengers.remove(passenger);
+
+            passenger = nextPassengerForCurrentDriver(passengers);
+            vehicle = Vehicle.withPassengers(nextDriver(), passenger);
+        }
+
         return Travel.with(vehicle, currentPosition, Place.destByOrigin(currentPosition));
     }
 
@@ -46,18 +60,19 @@ public class Guide {
         throw new DriverNotFoundException();
     }
 
-    public Person nextPassengerByDriver(Person driver) {
+    public Person nextPassengerByDriver(Person driver, List<Person> availablePassengers) {
         for (Person p: availablePassengers) {
-            if(!p.equals(driver) && !driver.hasRestrictionWith(p))
+            if(!p.canDrive() && !p.equals(driver) && !driver.hasRestrictionWith(p))
                 return p;
         }
 
         throw new PassengerNotFoundForDriverException();
     }
 
-    private Person nextPassengerForCurrentDriver() {
+    private Person nextPassengerForCurrentDriver(List<Person> availablePassengers) {
         try{
-            return nextPassengerByDriver(nextDriver());
+            Person driver = nextDriver();
+            return nextPassengerByDriver(driver, availablePassengers);
         }catch (PassengerNotFoundForDriverException e) {
             return null;
         }
