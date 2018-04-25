@@ -64,15 +64,11 @@ public class Guide {
     public Person nextDriver() {
         Random r = new Random();
         List<Person> drivers = getDrivers();
+
+        if(drivers.isEmpty())
+            throw new DriverNotFoundException();
+
         return drivers.get(r.nextInt(drivers.size()));
-
-//        return availablePassengers.stream().filter(p -> p.canDrive()).findAny().orElseThrow(() -> new DriverNotFoundException());
-
-//        for (Person p: availablePassengers)
-//            if(p.canDrive())
-//                return p;
-//
-//        throw new DriverNotFoundException();
     }
 
     private List<Person> getDrivers() {

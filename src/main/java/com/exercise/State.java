@@ -1,30 +1,24 @@
 package com.exercise;
 
-import com.exercise.business.Guide;
 import com.exercise.entity.Person;
 import com.exercise.entity.Vehicle;
 import com.exercise.travel.Place;
 import com.exercise.travel.Travel;
 import com.google.common.base.Objects;
-import com.google.common.collect.Collections2;
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 import static com.google.common.base.MoreObjects.*;
 
 public class State {
-    final Map<Place, List<Person>> people = Maps.newEnumMap(Place.class);
+    private final List<PeopleWaiting> people = PeopleWaiting.forAllLocations();
     private final Place location;
     private State parent;
     private State next;
 
     State(Place location) {
         this.location = location;
-        buildPeople();
     }
 
     public State(Place location, State parent) {
@@ -43,20 +37,20 @@ public class State {
     public static State buildNext(State state, Travel travel) {
         State next = withParent(travel.getDestination(), state);
 
-        state.people.entrySet()
+        state.people
                 .stream()
                 .forEach(e ->
-                    next.addPassengers(e.getKey(), buildPeopleList(travel, e))
+                    next.addPassengers(e.getLocation(), buildPeopleList(travel, e))
                 );
 
         state.setNextState(next);
         return next;
     }
 
-    private static List<Person> buildPeopleList(Travel travel, Map.Entry<Place, List<Person>> entry) {
-        List<Person> list = Lists.newLinkedList(entry.getValue());
+    private static List<Person> buildPeopleList(Travel travel, PeopleWaiting pw) {
+        List<Person> list = Lists.newLinkedList(pw.getPeople());
 
-        if (entry.getKey() != travel.getOrigin()) {
+        if (pw.getLocation() != travel.getOrigin()) {
             addVehiclePassengersToPeople(list, travel.getVehicle());
         } else {
             removeVehiclePassengersFromPeople((LinkedList)list, travel.getVehicle());
@@ -83,38 +77,22 @@ public class State {
         return this.passengersWaitingAt(this.location);
     }
 
-    public List<Person> passengersWaitingAtDestination() {
-        return this.passengersWaitingAt(Place.destByOrigin(this.location));
-    }
-
     public List<Person> passengersWaitingAt(Place location) {
-        List<Person> people = this.people.get(location);
-        Collections.sort(people);
-        return ImmutableList.copyOf(people);
+        return waitingAtLocation(location).getPeople();
     }
 
     public void addPassenger(Place location, Person person) {
-        this.people.get(location).add(person);
-        Collections.sort(this.people.get(location));
+        waitingAtLocation(location).addPeople(Lists.newArrayList(person));
     }
 
-    public void addPassengers(Place location, Collection<? extends Person> person) {
-        if(!person.isEmpty())
-            this.people.get(location).addAll(person);
-
-        Collections.sort(this.people.get(location));
+    public void addPassengers(Place location, List<Person> person) {
+        waitingAtLocation(location).addPeople(person);
     }
 
     public boolean isValidState() {
         return people
-                .entrySet()
                 .stream()
-                .allMatch(e -> Guide.of(e.getKey(), e.getValue()).isValid());
-    }
-
-    private void buildPeople() {
-        for (Place place : Place.values())
-            people.put(place, Lists.newLinkedList());
+                .allMatch(e -> e.isValid());
     }
 
     public State getParent() {
@@ -131,6 +109,14 @@ public class State {
 
     public Place getLocation() {
         return this.location;
+    }
+
+    private PeopleWaiting waitingAtLocation(Place place) {
+        return this.people
+                .stream()
+                .filter(p -> p.getLocation().equals(place))
+                .findFirst()
+                .orElse(null);
     }
 
     @Override
@@ -156,7 +142,4 @@ public class State {
                 .toString();
     }
 
-    public boolean hasMorePassengersOnDestination() {
-        return passengersWaitingAtLocation().size() < passengersWaitingAtDestination().size();
-    }
 }
