@@ -1,7 +1,6 @@
-package com.exercise;
+package com.exercise.entity;
 
-import com.exercise.entity.Person;
-import com.exercise.entity.Vehicle;
+import com.exercise.business.PeopleWaiting;
 import com.exercise.travel.Place;
 import com.exercise.travel.Travel;
 import com.google.common.base.Objects;

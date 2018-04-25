@@ -1,6 +1,7 @@
 package com.exercise;
 
 import com.exercise.entity.Person;
+import com.exercise.entity.State;
 import com.exercise.travel.Travel;
 import org.junit.Test;
 

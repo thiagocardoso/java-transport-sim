@@ -1,6 +1,8 @@
 package com.exercise;
 
+import com.exercise.business.Manager;
 import com.exercise.entity.Person;
+import com.exercise.entity.State;
 import com.exercise.travel.Place;
 import org.junit.Test;
 

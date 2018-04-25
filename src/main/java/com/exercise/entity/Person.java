@@ -1,7 +1,6 @@
 package com.exercise.entity;
 
 import com.exercise.role.BasicRole;
-import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 
 import com.exercise.role.Role;

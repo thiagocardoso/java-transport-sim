@@ -3,7 +3,7 @@ package com.exercise.travel;
 import static com.exercise.travel.Place.destByOrigin;
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.exercise.PeopleWaiting;
+import com.exercise.business.PeopleWaiting;
 import com.exercise.business.DriverNotFoundException;
 import com.exercise.business.PassengerNotFoundForDriverException;
 import com.exercise.entity.Person;

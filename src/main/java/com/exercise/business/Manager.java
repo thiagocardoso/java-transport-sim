@@ -1,15 +1,13 @@
-package com.exercise;
+package com.exercise.business;
 
+import com.exercise.entity.State;
 import com.exercise.travel.Place;
 import com.exercise.travel.Travel;
 import com.google.common.collect.Lists;
 
 import java.util.List;
-import java.util.logging.Logger;
 
 public class Manager {
-    private static final Logger LOGGER= Logger.getLogger(Manager.class.getName());
-
     private final State initialState;
     private final State objectiveState;
     private final List<State> solution = Lists.newLinkedList();

@@ -1,8 +1,5 @@
-package com.exercise;
+package com.exercise.business;
 
-import com.exercise.business.NotAloneWithRestrictionValidator;
-import com.exercise.business.PrisonerWithoutPolicemanValidator;
-import com.exercise.business.Validator;
 import com.exercise.entity.Person;
 import com.exercise.travel.Place;
 import com.google.common.base.Objects;
