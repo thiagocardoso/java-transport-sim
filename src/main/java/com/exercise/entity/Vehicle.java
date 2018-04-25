@@ -7,10 +7,6 @@ public class Vehicle {
     private final Person passenger1;
     private final Person passenger2;
 
-    Vehicle() {
-        this(null, null);
-    }
-
     public Vehicle(Person passenger1, Person passenger2) {
         if(passenger1 == null || !passenger1.canDrive())
             throw new VehicleWithoutDriverException();
@@ -49,13 +45,5 @@ public class Vehicle {
 
     public Person getPassenger() {
         return this.passenger2;
-    }
-
-    public boolean isPassengerInto(Person passenger) {
-        if(passenger != null){
-            return passenger.equals(passenger1) || passenger.equals(passenger2);
-        }
-
-        return false;
     }
 }
