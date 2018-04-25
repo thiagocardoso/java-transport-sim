@@ -87,6 +87,6 @@ public enum BasicRole implements Role {
 
     @Override
     public boolean containsRestriction(Role role) {
-        return restrictions.get(this).contains(role);
+        return restrictions.get(this)!=null && restrictions.get(this).contains(role);
     }
 }

@@ -9,6 +9,9 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 
 import java.util.List;
+import java.util.Random;
+import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 public class Guide {
 
@@ -39,39 +42,54 @@ public class Guide {
     public Travel nextTravel(Travel lastTravel) {
         List<Person> passengers = Lists.newLinkedList(this.availablePassengers);
 
-        Person passenger = nextPassengerForCurrentDriver(passengers);
-        Vehicle vehicle = Vehicle.withPassengers(nextDriver(), passenger);
+        Person driver = nextDriver();
+        Person passenger = nextPassengerOrNull(driver, passengers);
+        Vehicle vehicle = Vehicle.withPassengers(driver, passenger);
 
         while (lastTravel != null && lastTravel.getVehicle().equals(vehicle)) {
             passengers.remove(passenger);
-
-            passenger = nextPassengerForCurrentDriver(passengers);
-            vehicle = Vehicle.withPassengers(nextDriver(), passenger);
+            driver = nextDriver();
+            passenger = nextPassengerOrNull(driver, passengers);
+            vehicle = Vehicle.withPassengers(driver, passenger);
         }
 
         return Travel.with(vehicle, currentPosition, Place.destByOrigin(currentPosition));
     }
 
-    public Person nextDriver() {
-        for (Person p: availablePassengers)
-            if(p.canDrive())
-                return p;
+    public Travel nextTravelOnlyDriver() {
+        Vehicle vehicle = Vehicle.withPassengers(nextDriver(), null);
+        return Travel.with(vehicle, currentPosition, Place.destByOrigin(currentPosition));
+    }
 
-        throw new DriverNotFoundException();
+    public Person nextDriver() {
+        Random r = new Random();
+        List<Person> drivers = getDrivers();
+        return drivers.get(r.nextInt(drivers.size()));
+
+//        return availablePassengers.stream().filter(p -> p.canDrive()).findAny().orElseThrow(() -> new DriverNotFoundException());
+
+//        for (Person p: availablePassengers)
+//            if(p.canDrive())
+//                return p;
+//
+//        throw new DriverNotFoundException();
+    }
+
+    private List<Person> getDrivers() {
+        return availablePassengers.stream().filter(p -> p.canDrive()).collect(Collectors.toList());
     }
 
     public Person nextPassengerByDriver(Person driver, List<Person> availablePassengers) {
         for (Person p: availablePassengers) {
-            if(!p.canDrive() && !p.equals(driver) && !driver.hasRestrictionWith(p))
+            if(!p.equals(driver) && !driver.hasRestrictionWith(p))
                 return p;
         }
 
         throw new PassengerNotFoundForDriverException();
     }
 
-    private Person nextPassengerForCurrentDriver(List<Person> availablePassengers) {
+    private Person nextPassengerOrNull(Person driver, List<Person> availablePassengers) {
         try{
-            Person driver = nextDriver();
             return nextPassengerByDriver(driver, availablePassengers);
         }catch (PassengerNotFoundForDriverException e) {
             return null;

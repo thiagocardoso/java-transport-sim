@@ -38,22 +38,34 @@ public class Manager {
     }
 
     public State process(State state, Travel lastTravel, List<State> actualSolution) {
-        if (state != null && !actualSolution.contains(state)) {
+        if (state != null && state.isValidState()) {
             printLog(state);
             actualSolution.add(state);
-            Travel travel = Guide.fromState(state).nextTravel(lastTravel);
+
+            if (objectiveState.equals(state))
+                return state;
+
+            Travel travel = buildTravel(state, lastTravel);
             State next = State.buildNext(state, travel);
 
-            if (objectiveState.equals(next))
-                return next;
+            while (actualSolution.contains(next) || !next.isValidState()) {
+                travel = buildTravel(state, travel);
+                next = State.buildNext(state, travel);
+            }
 
             return process(next, travel, actualSolution);
         }
         return null;
     }
 
+    private Travel buildTravel(State state, Travel lastTravel) {
+        if(state.getLocation() == objectiveState.getLocation())
+            return Guide.fromState(state).nextTravelOnlyDriver();
+        else
+            return Guide.fromState(state).nextTravel(lastTravel);
+    }
+
     private void printLog(State state) {
-//        System.out.println("--------------------");
         System.out.println(String.format("[] Actual Location: %s", state.getLocation()));
         System.out.println(String.format("[] AIRPORT: %s", state.passengersWaitingAt(Place.AIRPORT)));
         System.out.println(String.format("[] PLANE: %s", state.passengersWaitingAt(Place.PLANE)));

@@ -83,6 +83,10 @@ public class State {
         return this.passengersWaitingAt(this.location);
     }
 
+    public List<Person> passengersWaitingAtDestination() {
+        return this.passengersWaitingAt(Place.destByOrigin(this.location));
+    }
+
     public List<Person> passengersWaitingAt(Place location) {
         List<Person> people = this.people.get(location);
         Collections.sort(people);
@@ -91,6 +95,7 @@ public class State {
 
     public void addPassenger(Place location, Person person) {
         this.people.get(location).add(person);
+        Collections.sort(this.people.get(location));
     }
 
     public void addPassengers(Place location, Collection<? extends Person> person) {
@@ -149,5 +154,9 @@ public class State {
                 .add("location", this.location)
                 .add("people", this.people)
                 .toString();
+    }
+
+    public boolean hasMorePassengersOnDestination() {
+        return passengersWaitingAtLocation().size() < passengersWaitingAtDestination().size();
     }
 }
