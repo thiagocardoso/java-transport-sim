@@ -7,3 +7,14 @@
 ```
 $gradle install
 $gradle run
+```
+
+## Tools
+#### Java SDK
+Java version "1.8.0_171"
+
+#### Gradle
+Gradle 4.7
+
+#### IDE
+IntelliJ IDEA CE
